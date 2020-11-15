@@ -1,5 +1,20 @@
 const options = ["paper", "rock", "scissors"];
 
+const combinations = {
+  scissors: {
+    rock: "lose",
+    paper: "wins",
+  },
+  rock: {
+    scissors: "wins",
+    paper: "lose",
+  },
+  paper: {
+    rock: "wins",
+    scissors: "lose",
+  },
+};
+
 function computerPlay() {
   return options[randomInt(3, true)];
 }
@@ -14,15 +29,14 @@ const randomInt = (num, includeZero = false) => {
 };
 
 function round(computerSelection, playerSelection) {
-  if (computerSelection == playerSelection) return "drow";
+  if (computerSelection == playerSelection) return "Drow! nobody wins";
 
-  if (computerSelection == "paper") {
-    return playerSelection == "rock" ? "computer wins" : "player wins";
-  } else if (computerSelection == "scissors") {
-    return playerSelection == "paper" ? "computer wins" : "player wins";
-  } else {
-    return playerSelection == "scissors" ? "computer wins" : "player wins";
-  }
+  let result = "";
+  if (combinations[computerSelection][playerSelection] == "wins") {
+    result += `Computer wins! ${computerSelection} wins over ${playerSelection}`;
+  } else
+    result += `Player wins! ${playerSelection} wins over ${computerSelection}`;
+  return result;
 }
 
 const player = playerPlay();
