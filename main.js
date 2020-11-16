@@ -1,6 +1,13 @@
-const options = ["paper", "rock", "scissors"];
+const OPTIONS = ["paper", "rock", "scissors"];
+const PLAYER_ELECTION = document.querySelector(".player-election");
+const PLAYER_WINS = document.querySelector(".player-wins");
+const COMPUTER_ELECTION = document.querySelector(".computer-election");
+const COMPUTER_WINS = document.querySelector(".computer-wins");
+const START_GAME = document.querySelector("#start-game");
+const WINNER = document.querySelector(".winner");
+const ROUND = document.querySelector(".round");
 
-const combinations = {
+const COMBINATIONS = {
   scissors: {
     rock: "lose",
     paper: "wins",
@@ -15,12 +22,16 @@ const combinations = {
   },
 };
 
+START_GAME.addEventListener("click", () => {
+  game();
+});
+
 function computerPlay() {
-  return options[randomInt(3, true)];
+  return OPTIONS[randomInt(3, true)];
 }
 
 function playerPlay() {
-  return options[randomInt(3, true)];
+  return OPTIONS[randomInt(3, true)];
 }
 
 const randomInt = (num, includeZero = false) => {
@@ -29,18 +40,54 @@ const randomInt = (num, includeZero = false) => {
 };
 
 function round(computerSelection, playerSelection) {
-  if (computerSelection == playerSelection) return "Drow! nobody wins";
+  if (computerSelection == playerSelection)
+    return ["Drow! nobody wins", "none"];
 
-  let result = "";
-  if (combinations[computerSelection][playerSelection] == "wins") {
-    result += `Computer wins! ${computerSelection} wins over ${playerSelection}`;
-  } else
-    result += `Player wins! ${playerSelection} wins over ${computerSelection}`;
-  return result;
+  let winner;
+  let message = "";
+  if (COMBINATIONS[computerSelection][playerSelection] == "wins") {
+    message += `Computer wins! ${computerSelection} wins over ${playerSelection}`;
+    winner = "computer";
+  } else {
+    message += `Player wins! ${playerSelection} wins over ${computerSelection}`;
+    winner = "player";
+  }
+  return [message, winner];
 }
 
-const player = playerPlay();
-const computer = computerPlay();
+function game() {
+  let rounds = 0;
+  let playerRate = 0;
+  let computerRate = 0;
+  for (let i = 0; i < 8; i++) {
+    const PLAYER = prompt("Rock, Paper or Scissors?").toLowerCase();
+    if (!OPTIONS.includes(PLAYER)) {
+      i--;
+      continue;
+    }
 
-console.log(`Computer: ${computer}, Player: ${player}`);
-console.log(round(computer, player));
+    rounds++;
+    const COMPUTER = computerPlay();
+
+    ROUND.textContent = rounds;
+    PLAYER_ELECTION.textContent =
+      PLAYER.charAt(0).toUpperCase() + PLAYER.slice(1);
+    COMPUTER_ELECTION.textContent =
+      COMPUTER.charAt(0).toUpperCase() + COMPUTER.slice(1);
+
+    const [message, winner] = round(COMPUTER, PLAYER);
+    if (winner == "player") playerRate++;
+    else if (winner == "computer") computerRate++;
+
+    console.log(message);
+    WINNER.textContent = message;
+    PLAYER_WINS.textContent = playerRate;
+    COMPUTER_WINS.textContent = computerRate;
+  }
+
+  let winner = "";
+  if (playerRate > computerRate) winner = "PLAYER WON!";
+  else if (playerRate < computerRate) winner = "COMPUTER WON!";
+  else winner = "DROW!";
+  WINNER.textContent = winner;
+}

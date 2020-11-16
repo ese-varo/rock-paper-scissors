@@ -1,0 +1,10 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "Rock Paper Scissors Game",
+  "main": "main.js",
+  "repository": "git@github.com:ese-varo/rock-paper-scissors.git",
+  "author": "Alvaro Padilla <varoboss.ap@gmail.com>",
+  "license": "MIT",
+  "scripts": {}
+}
