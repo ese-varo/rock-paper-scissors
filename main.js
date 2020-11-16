@@ -27,12 +27,12 @@ START_GAME.addEventListener("click", () => {
 });
 
 function computerPlay() {
-  return OPTIONS[randomInt(3, true)];
+  return OPTIONS[RANDOM_INT(3, true)];
 }
 
-const randomInt = (num, includeZero = false) => {
-  const result = Math.floor(Math.random() * Math.floor(num));
-  return includeZero ? result : result + 1;
+const RANDOM_INT = (num, includeZero = false) => {
+  const RESULT = Math.floor(Math.random() * Math.floor(num));
+  return includeZero ? RESULT : RESULT + 1;
 };
 
 function round(computerSelection, playerSelection) {
@@ -57,26 +57,33 @@ function game() {
   let computerRate = 0;
   for (let i = 0; i < 8; i++) {
     const PLAYER = capturePlayer();
-    if (!OPTIONS.includes(PLAYER)) {
+    if (isValidOption(PLAYER)) {
       i--;
       continue;
     }
 
     rounds++;
     const COMPUTER = computerPlay();
-    const [message, winner] = round(COMPUTER, PLAYER);
-    if (winner == "player") playerRate++;
-    else if (winner == "computer") computerRate++;
+    const [MESSAGE, WINNER] = round(COMPUTER, PLAYER);
+    if (WINNER == "player") playerRate++;
+    else if (WINNER == "computer") computerRate++;
 
     renderPlayer(PLAYER_ELECTION, PLAYER);
     renderPlayer(COMPUTER_ELECTION, COMPUTER);
-
-    ROUND.textContent = rounds;
-    WINNER.textContent = message;
-    PLAYER_WINS.textContent = playerRate;
-    COMPUTER_WINS.textContent = computerRate;
+    renderStats(rounds, playerRate, computerRate);
+    WINNER.textContent = MESSAGE;
   }
   defineWinner(playerRate, computerRate);
+}
+
+function renderStats(rounds, playerRate, computerRate) {
+  ROUND.textContent = rounds;
+  PLAYER_WINS.textContent = playerRate;
+  COMPUTER_WINS.textContent = computerRate;
+}
+
+function isValidOption(option) {
+  return !OPTIONS.includes(option);
 }
 
 function capturePlayer() {
