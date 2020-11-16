@@ -56,7 +56,7 @@ function game() {
   let playerRate = 0;
   let computerRate = 0;
   for (let i = 0; i < 8; i++) {
-    const PLAYER = prompt("Rock, Paper or Scissors?").toLowerCase();
+    const PLAYER = capturePlayer();
     if (!OPTIONS.includes(PLAYER)) {
       i--;
       continue;
@@ -77,6 +77,12 @@ function game() {
     COMPUTER_WINS.textContent = computerRate;
   }
   defineWinner(playerRate, computerRate);
+}
+
+function capturePlayer() {
+  const PLAYER = prompt("Rock, Paper or Scissors?");
+  if (PLAYER != null) PLAYER.toLowerCase();
+  return PLAYER;
 }
 
 function renderPlayer(player, playerElection) {
