@@ -30,10 +30,6 @@ function computerPlay() {
   return OPTIONS[randomInt(3, true)];
 }
 
-function playerPlay() {
-  return OPTIONS[randomInt(3, true)];
-}
-
 const randomInt = (num, includeZero = false) => {
   const result = Math.floor(Math.random() * Math.floor(num));
   return includeZero ? result : result + 1;
@@ -68,22 +64,24 @@ function game() {
 
     rounds++;
     const COMPUTER = computerPlay();
-
-    ROUND.textContent = rounds;
-    PLAYER_ELECTION.textContent =
-      PLAYER.charAt(0).toUpperCase() + PLAYER.slice(1);
-    COMPUTER_ELECTION.textContent =
-      COMPUTER.charAt(0).toUpperCase() + COMPUTER.slice(1);
-
     const [message, winner] = round(COMPUTER, PLAYER);
     if (winner == "player") playerRate++;
     else if (winner == "computer") computerRate++;
 
+    renderPlayer(PLAYER_ELECTION, PLAYER);
+    renderPlayer(COMPUTER_ELECTION, COMPUTER);
+
+    ROUND.textContent = rounds;
     WINNER.textContent = message;
     PLAYER_WINS.textContent = playerRate;
     COMPUTER_WINS.textContent = computerRate;
   }
   defineWinner(playerRate, computerRate);
+}
+
+function renderPlayer(player, playerElection) {
+  player.textContent =
+    playerElection.charAt(0).toUpperCase() + playerElection.slice(1);
 }
 
 function defineWinner(playerWins, computerWins) {
