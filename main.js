@@ -79,15 +79,17 @@ function game() {
     if (winner == "player") playerRate++;
     else if (winner == "computer") computerRate++;
 
-    console.log(message);
     WINNER.textContent = message;
     PLAYER_WINS.textContent = playerRate;
     COMPUTER_WINS.textContent = computerRate;
   }
+  defineWinner(playerRate, computerRate);
+}
 
+function defineWinner(playerWins, computerWins) {
   let winner = "";
-  if (playerRate > computerRate) winner = "PLAYER WON!";
-  else if (playerRate < computerRate) winner = "COMPUTER WON!";
+  if (playerWins > computerWins) winner = "PLAYER WON!";
+  else if (playerWins < computerWins) winner = "COMPUTER WON!";
   else winner = "DROW!";
   WINNER.textContent = winner;
 }
